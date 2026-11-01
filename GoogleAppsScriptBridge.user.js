@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         GoogleAppsScript
-// @namespace    http://tampermonkey.net/
-// @version      2.2
-// @description  מוסיף כפתורי הורדה והעלאה של קבצי קוד (GS) של גוגל סקריפט
+// @namespace    https://github.com/Tzadikvtovlo?tab=repositories
+// @version      2.3
+// @description  מוסיף כפתורי הורדה והעלאה לקבצי הקוד של גוגל סקריפט
 // @author       צדיק וטוב לו & לומדעס
 // @match        https://script.google.com/*
 // @icon         https://www.gstatic.com/script/apps_script_1x_48dp.png
@@ -538,9 +538,11 @@
 
         const formatSelect = document.createElement('select');
         formatSelect.style.cssText = 'padding: 6px; border: 1px solid #dadce0; border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; background: white;';
-        const optOrig = document.createElement('option'); optOrig.textContent = 'שמור בפורמט מקורי (.gs/.html)'; optOrig.value = 'orig';
+
+        // השינוי שבוצע כאן: בניית האפשרויות כך ש-txt הוא הראשון ולכן מהווה את ברירת המחדל
         const optTxt = document.createElement('option'); optTxt.textContent = 'המרה לטקסט (.txt)'; optTxt.value = 'txt';
-        formatSelect.append(optOrig, optTxt);
+        const optOrig = document.createElement('option'); optOrig.textContent = 'שמור בפורמט מקורי (.gs/.html)'; optOrig.value = 'orig';
+        formatSelect.append(optTxt, optOrig);
 
         const labelAll = document.createElement('label');
         labelAll.style.cssText = 'display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #3c4043;';
@@ -625,7 +627,7 @@
                     let dlName = f.name;
                     if (format === 'txt') dlName = dlName.replace(/\.(gs|html|json)$/i, '') + '.txt';
                     downloadOne(dlName, result.value);
-                    f.status = 'הורד ✓';
+                    f.status = 'ירד ✓';
                 } else {
                     f.status = 'שגיאה ✗';
                 }
